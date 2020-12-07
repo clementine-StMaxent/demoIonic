@@ -11,11 +11,27 @@
 
   <div id="container">
 
-    <ion-list>
-      <ion-item  *ngFor="let student of students">
+    <!-- <ul>
+      <li *ngFor="let student of students">
         {{ student }}
+      </li>
+    </ul> -->
+
+    <div>
+      {{ message }}
+    </div>
+
+    <ion-list>
+      <ion-item *ngFor="let student of students; let i = index">
+        <ion-label>{{ student.name }}</ion-label>
+        <ion-badge [color]="student.grade < 10 ? 'danger' : 'secondary' ">{{ student.grade }} </ion-badge>
+        <ion-button slot="start" (click)="onClick(i)" size="small">Click
+        </ion-button>
+
+        <ion-checkbox color="secondary" class="ion-margin-start" (ionChange)="onChange($event)"
+          [checked]="student.isProjectDone">
+        </ion-checkbox>
       </ion-item>
     </ion-list>
-    
   </div>
 </ion-content>

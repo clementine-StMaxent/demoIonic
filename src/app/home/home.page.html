@@ -8,26 +8,26 @@
 
 <ion-content [fullscreen]="true">
 
-
   <div id="container">
+    <ion-chip
+      (click)="testPopover()"
+      color="success">Test Popover</ion-chip>
 
-    <!-- <ul>
-      <li *ngFor="let student of students">
-        {{ student }}
-      </li>
-    </ul> -->
-
+    <div>{{ message }}</div>
     <div>
-      {{ message }}
+      <span *ngIf="numFastStudent == 0">
+        Aucun étudiant n'a terminé son projet
+      </span>
+      <span *ngIf="numFastStudent > 1">
+        <strong>{{ numFastStudent}} </strong>
+        étudiants ont terminé leur projet
+      </span>
+      <span *ngIf="numFastStudent == 1">
+        <strong>{{ numFastStudent}} </strong>
+        étudiant a terminé son projet
+      </span>
     </div>
 
-    <div>
-      <span *ngIf="numFastStudent == 0  "> Aucun étudiant n'a terminé leur projet</span>
-      <strong> {{ numFastStudent }}</strong>
-      <span *ngIf="numFastStudent > 1 "> étudiants ont terminé leur projet</span>
-      <strong> {{ numFastStudent }}</strong>
-      <span *ngIf="numFastStudent ==1 "> étudiant a terminé son projet</span>
-    </div>
 
     <ion-list>
       <ion-item *ngFor="let student of students; let i = index">

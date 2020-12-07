@@ -1,4 +1,6 @@
+import { TestComponent } from './../components/test/test.component';
 import { Component } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 
 interface Student {
@@ -23,7 +25,7 @@ export class HomePage {
   numFastStudent: number;
   message: string = '';
 
-  constructor() {
+  constructor(private popoverCtrl: PopoverController) {
     this.numFastStudent = this.getStudentProjectFinish().length;
   }
 
@@ -42,8 +44,16 @@ export class HomePage {
     console.log(this.students);
   }
 
+  async testPopover(){
+    let popover = await this.popoverCtrl.create({
+    component: TestComponent,
+    translucent: false
+    })
+    await popover.present()
+    }
+
   // Retourne les étudiants ayant terminer leur projet.
-  getStudentProjectFinish(): Student[] {
+  private getStudentProjectFinish(): Student[] {
     // le filter permet de push un étudiant dans le tableau les étudiants dont la propriété isProjectDone === true.
     return this.students.filter(student => student.isProjectDone === true);
   }

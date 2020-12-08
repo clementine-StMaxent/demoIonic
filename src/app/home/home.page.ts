@@ -1,15 +1,11 @@
+import { EtudiantService } from './../Service/etudiant.service';
+import { Student } from './../Interface/student.interface';
 import { TestComponent } from './../components/test/test.component';
 import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 
-interface Student {
-  id: number;
-  name: string;
-  grade: number;
-  isProjectDone: boolean;
-  comment: string;
-}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,16 +13,23 @@ interface Student {
 })
 
 export class HomePage {
-  students: Student[] = [
-    { id: 1, name: 'Hugo', grade: 12, isProjectDone: false, comment: 'Appliqué, attentif' },
-    { id: 2, name: 'Noémie', grade: 18, isProjectDone: true, comment: 'Brillante' },
-    { id: 3, name: 'Umberto', grade: 6.5, isProjectDone: false, comment: 'Dissipé, perturbateur' }
-  ];
+  // students: Student[] = [
+  //   { id: 1, name: 'Hugo', grade: 12, isProjectDone: false, comment: 'Appliqué, attentif' },
+  //   { id: 2, name: 'Noémie', grade: 18, isProjectDone: true, comment: 'Brillante' },
+  //   { id: 3, name: 'Umberto', grade: 6.5, isProjectDone: false, comment: 'Dissipé, perturbateur' }
+  // ];
+
+  students: Student[] | null = null;
   numFastStudent: number;
   message: string = '';
 
-  constructor(private popoverCtrl: PopoverController) {
-    this.numFastStudent = this.getStudentProjectFinish().length;
+  constructor(private popoverCtrl: PopoverController, private etudiantService: EtudiantService) {
+    this.etudiantService
+      .findAll().subscribe(
+        students => {
+          this.students = students;
+          this.numFastStudent = this.getStudentProjectFinish().length;
+        });
   }
 
   onClick(index: number) {
@@ -44,13 +47,13 @@ export class HomePage {
     console.log(this.students);
   }
 
-  async testPopover(){
+  async testPopover() {
     let popover = await this.popoverCtrl.create({
-    component: TestComponent,
-    translucent: false
-    })
-    await popover.present()
-    }
+      component: TestComponent,
+      translucent: false
+    });
+    await popover.present();
+  }
 
   // Retourne les étudiants ayant terminer leur projet.
   private getStudentProjectFinish(): Student[] {
